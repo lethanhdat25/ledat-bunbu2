@@ -2,21 +2,10 @@ const express=require("express");
 const app=express();
 const port=8080;
 const cors=require("cors");
-
+const route=require("./routes");
 //Use CORS
 app.use(cors());
 
-app.get("/",((req, res) => {
-    const data={
-        colors : [
-            "violet", "cornflowerblue", "gold", "orange",
-            "turquoise", "tomato", "greenyellow"
-        ],
-        symbols : [
-            "circle", "star", "square", "triangleUp",
-            "triangleDown", "diamond", "plus"
-        ]
-    }
-    return res.json(data);
-}))
+route(app);
+
 app.listen(port,()=>console.log("SERVER IS RUNNING..."));
