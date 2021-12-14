@@ -13,6 +13,7 @@ const Victory1=()=>{
         {quarter: 3, earnings: 14250},
         {quarter: 4, earnings: 19000}
     ];
+
     return (
         <div className="App">
             <VictoryChart domainPadding={20} theme={VictoryTheme.material} >
@@ -28,5 +29,6 @@ const Victory1=()=>{
             </VictoryChart>
         </div>
     );
-}
+};
+
 export default Victory1;

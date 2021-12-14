@@ -1,7 +1,9 @@
 const victoryRouter=require("./victory");
-const bunbuRouter=require("./bunbu");
+const deviceSummaryRouter=require("./deviceSummary");
+
 function route(app){
     app.use("/victory",victoryRouter);
-    app.use("/",bunbuRouter);
-}
+    app.use("/",deviceSummaryRouter);
+};
+
 module.exports=route;
