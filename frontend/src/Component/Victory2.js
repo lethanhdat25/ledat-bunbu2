@@ -16,7 +16,8 @@ const Victory2=()=>{
             setData(result.data)
         }
         fetchData();
-    },[])
+    },[]);
+
     useEffect( ()=>{
         const timer= setInterval(()=>{
             setScatterData(getScatterData)
@@ -24,7 +25,8 @@ const Victory2=()=>{
         return ()=>{
             clearInterval(timer)
         }
-    },[data])
+    },[data]);
+
     const getScatterData=()=>{
         const colors = data.colors;
         const symbols = data.symbols;
@@ -39,7 +41,8 @@ const Victory2=()=>{
                 opacity: 0.6
             };
         });
-    }
+    };
+
     return (
         <VictoryChart animate={{ duration: 3000, easing: "back" }}>
             <VictoryScatter
@@ -53,5 +56,6 @@ const Victory2=()=>{
             />
         </VictoryChart>
     );
-}
+};
+
 export default Victory2;
