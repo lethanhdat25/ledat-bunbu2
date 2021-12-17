@@ -1,7 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-    status: "",
+    pending:false,
+    success:false,
+    failed:false,
     data: [],
 };
 const deviceSummary = createSlice({
@@ -9,14 +11,16 @@ const deviceSummary = createSlice({
     initialState,
     reducers: {
         FETCH_DEVICE_SUMMARY: (state) => {
-            state.status = "LOADING";
+            state.pending=true;
         },
         FETCH_DEVICE_SUMMARY_SUCCESS: (state, action) => {
-            state.status = "SUCCESS";
+            state.success=true;
+            state.pending=false;
             state.data = action.payload;
         },
         FETCH_DEVICE_SUMMARY_FAILED: (state,action) => {
-            state.status = action.payload;
+            state.pending=false;
+            state.failed=action.payload;
         }
     },
 
