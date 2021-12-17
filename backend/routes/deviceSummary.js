@@ -2,7 +2,7 @@ const express=require("express");
 const router=express.Router();
 
 router.get("/device_summary",(req, res) =>{
-    res.json( {ios: 40, android: 60});
+    setTimeout(()=>res.json( {ios: 40, android: 60}),10000);
 })
 
 router.get("/",(req, res)=>{

@@ -1,31 +1,44 @@
-import {VictoryPie, VictoryPolarAxis, VictoryTheme} from "victory";
-import {useEffect, useState} from "react";
-import axios from "axios";
+import {VictoryPie} from "victory";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    fetchDeviceSummary,
+    fetchDeviceSummaryFailed,
+    fetchDeviceSummarySuccess
+} from "../store/slice/deviceSummary";
+import {deviceSummaryApi} from "../api/deviceSummary";
 
 
 const DeviceSummary=()=>{
-    const [data,setData]=useState({});
+    const dispatch=useDispatch();
+    const store = useSelector(state=>state.deviceSummary);
     useEffect(()=>{
         const fetchData=async ()=>{
-            await axios.get("http://localhost:8080/device_summary")
+            dispatch(fetchDeviceSummary());
+            await deviceSummaryApi.getDeviceSummary()
                 .then(rs=>{
-                    setData(rs.data)
+                    dispatch(fetchDeviceSummarySuccess(rs.data));
                 })
-                .catch(err=>console.log(err))
-        }
+                .catch(err=>dispatch(fetchDeviceSummaryFailed(err.message)));
+        };
         fetchData();
-    },[]);
 
-    const getKey=Object.keys(data);
+    },[]);
+    const getKey=Object.keys(store.data);
     const pieData= getKey.map(value=>({
             x:value,
-            y:data[value]
+            y:store.data[value]
         })
     );
 
     return(
         <div style={{width:400,height:400,margin:"auto"}}>
-            <VictoryPie data={pieData} style={{labels:{ padding: 5}}}/>
+            <VictoryPie
+                colorScale={store.data.length!==0?"qualitative":["gray"]}
+                data={store.data.length!==0?pieData:null}
+                style={{labels:{ padding: 5}}}
+                labels={({datum})=>store.data.length===0?"":datum.xName}
+            />
         </div>
     );
 
