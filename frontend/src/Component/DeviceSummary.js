@@ -2,9 +2,9 @@ import {VictoryPie} from "victory";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    FETCH_DEVICE_SUMMARY,
-    FETCH_DEVICE_SUMMARY_FAILED,
-    FETCH_DEVICE_SUMMARY_SUCCESS
+    fetchDeviceSummary,
+    fetchDeviceSummaryFailed,
+    fetchDeviceSummarySuccess
 } from "../store/slice/deviceSummary";
 import {deviceSummaryApi} from "../api/deviceSummary";
 
@@ -14,12 +14,12 @@ const DeviceSummary=()=>{
     const store = useSelector(state=>state.deviceSummary);
     useEffect(()=>{
         const fetchData=async ()=>{
-            dispatch(FETCH_DEVICE_SUMMARY());
+            dispatch(fetchDeviceSummary());
             await deviceSummaryApi.getDeviceSummary()
                 .then(rs=>{
-                    dispatch(FETCH_DEVICE_SUMMARY_SUCCESS(rs.data));
+                    dispatch(fetchDeviceSummarySuccess(rs.data));
                 })
-                .catch(err=>dispatch(FETCH_DEVICE_SUMMARY_FAILED(err.message)));
+                .catch(err=>dispatch(fetchDeviceSummaryFailed(err.message)));
         };
         fetchData();
 

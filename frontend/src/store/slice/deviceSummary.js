@@ -10,15 +10,15 @@ const deviceSummary = createSlice({
     name: "deviceSummary",
     initialState,
     reducers: {
-        FETCH_DEVICE_SUMMARY: (state) => {
+        fetchDeviceSummary: (state) => {
             state.pending=true;
         },
-        FETCH_DEVICE_SUMMARY_SUCCESS: (state, action) => {
+        fetchDeviceSummarySuccess: (state, action) => {
             state.success=true;
             state.pending=false;
             state.data = action.payload;
         },
-        FETCH_DEVICE_SUMMARY_FAILED: (state,action) => {
+        fetchDeviceSummaryFailed: (state,action) => {
             state.pending=false;
             state.failed=action.payload;
         }
@@ -26,4 +26,4 @@ const deviceSummary = createSlice({
 
 });
 export default deviceSummary.reducer;
-export const {FETCH_DEVICE_SUMMARY, FETCH_DEVICE_SUMMARY_SUCCESS, FETCH_DEVICE_SUMMARY_FAILED} = deviceSummary.actions;
+export const {fetchDeviceSummary,fetchDeviceSummarySuccess,fetchDeviceSummaryFailed} = deviceSummary.actions;

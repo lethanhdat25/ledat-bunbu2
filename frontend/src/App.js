@@ -4,12 +4,12 @@ import {useSelector} from "react-redux";
 import {toast, Toaster} from "react-hot-toast";
 
 function App() {
+    const store = useSelector(state => state.deviceSummary);
     const renderToast=()=>{
         if (store.success)  toast.success('Successfully created!');
         if (store.failed) toast.error(store.failed);
         return true;
     }
-    const store = useSelector(state => state.deviceSummary);
     return (
         <div className="App">
             <DeviceSummary/>
