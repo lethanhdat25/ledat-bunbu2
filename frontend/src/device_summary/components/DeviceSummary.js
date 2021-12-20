@@ -6,7 +6,7 @@ import {
     fetchDeviceSummaryFailed,
     fetchDeviceSummarySuccess
 } from "../store/slice/deviceSummary";
-import {deviceSummaryApi} from "../api/deviceSummary";
+import {deviceSummaryApi} from "../../learn_victory/api/deviceSummary";
 
 
 const DeviceSummary=()=>{
