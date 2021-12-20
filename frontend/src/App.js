@@ -1,5 +1,5 @@
 import './App.css';
-import DeviceSummary from "./Component/DeviceSummary";
+import DeviceSummary from "./device_summary/components/DeviceSummary";
 import {useSelector} from "react-redux";
 import {toast, Toaster} from "react-hot-toast";
 
