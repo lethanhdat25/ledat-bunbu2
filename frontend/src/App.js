@@ -1,12 +1,8 @@
 import './App.css';
-import Ranking from "./components/Ranking";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {toast, Toaster} from "react-hot-toast";
 import DeviceByHour from "./components/DeviceByHour";
-import DateReact from "./components/DateReact";
-import css from "./components/LabelPieChart/Modal.module.css";
-import LabelPieChart from "./components/LabelPieChart";
-import {toggle} from "./store/slice/label_pie_chart";
+
 function App() {
     const store=useSelector(state=>state);
     const renderToast=()=>{
