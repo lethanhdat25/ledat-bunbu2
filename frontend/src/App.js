@@ -1,28 +1,29 @@
 import './App.css';
-import Ranking from "./components/Ranking";
 import {useSelector} from "react-redux";
 import {toast, Toaster} from "react-hot-toast";
+import DeviceByHour from "./components/DeviceByHour";
+import Ranking from "./components/Ranking";
+
 function App() {
     const store=useSelector(state=>state);
     const renderToast=()=>{
-        if (store.ranking.success)  toast.success('Successfully created!');
-        if (store.ranking.failed) toast.error(store.ranking.failed);
+        if (store.device_by_hour.success)  toast.success('Successfully created!');
+        if (store.device_by_hour.failed) toast.error(store.ranking.failed);
         return true;
     }
     return(
         <>
             {renderToast()}
-            <Ranking/>
-            {store.ranking.pending && <div className="text-center">
+            {store.device_by_hour.pending && <div className="text-center">
                 <div className="spinner-border text-primary" role="status">
                     <span className="sr-only">Loading...</span>
                 </div>
             </div>}
+            <DeviceByHour/>
             <Toaster/>
 
         </>
-
     )
-}
+};
 
 export default App;

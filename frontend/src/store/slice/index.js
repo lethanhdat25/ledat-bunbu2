@@ -1,12 +1,7 @@
 import {combineReducers} from "redux";
-import deviceType from "./device_type";
-import device from "./device";
 import ranking from "./ranking";
-import deviceSummary from "./device_summary";
-
+import device_by_hour from "./device_by_hour";
 export const rootReducer=combineReducers({
-    deviceType:deviceType,
-    device:device,
-    deviceSummary:deviceSummary,
-    ranking:ranking
+    ranking:ranking,
+    device_by_hour:device_by_hour
 });
