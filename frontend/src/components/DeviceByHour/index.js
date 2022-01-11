@@ -30,7 +30,7 @@ const DeviceByHour = () => {
     }));
     console.log(data)
     return (
-        <>
+    <div style={{margin:"auto",width:1200}}>
         <div style={{float:"left",width: 670}}>
             <VictoryChart style={{parent:{width:700}}}>
                 <VictoryGroup
@@ -143,7 +143,7 @@ const DeviceByHour = () => {
                 <text x={250} y={10} style={{fontSize: "15"}}>{_.max(glossaryHour)}</text>
             </svg>
         </div>
-    </>
+    </div>
     )
 };
 export default DeviceByHour;
