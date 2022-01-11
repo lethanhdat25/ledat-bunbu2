@@ -2,6 +2,7 @@ import './App.css';
 import {useSelector} from "react-redux";
 import {toast, Toaster} from "react-hot-toast";
 import DeviceByHour from "./components/DeviceByHour";
+import Ranking from "./components/Ranking";
 
 function App() {
     const store=useSelector(state=>state);
@@ -10,7 +11,6 @@ function App() {
         if (store.device_by_hour.failed) toast.error(store.ranking.failed);
         return true;
     }
-    console.log(store.device_by_hour.data)
     return(
         <>
             {renderToast()}
@@ -20,7 +20,6 @@ function App() {
                 </div>
             </div>}
             <DeviceByHour/>
-
             <Toaster/>
 
         </>
