@@ -26,12 +26,7 @@ const Ranking = () => {
         <>
             <Calendar parent={'RANKING'} setDataOfParent={(result)=>setData(result)}/>
             <Toast parent={'RANKING'} parentData={data} color={'warning'}/>
-            <div style={{ width: 800, height: 300}}>
-                <h2>Ranking</h2>
-                <svg viewBox='0 0 700 50'>
-                    <text x={51} y={20} style={{ fontSize: '25' }}>Day</text>
-                    <text x={560} y={20} style={{ fontSize: '25' }}>Number</text>
-                </svg>
+            <div style={{ width: 800, height: 300,marginTop:45}}>
                 <VictoryChart
                     width={900} height={350}
                     responsive={false}
