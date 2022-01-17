@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const device_by_hour={
-    getData: async ()=>{
-        return await axios.get("http://localhost:8080/device_by_hour");
-    }
+export const deviceByHour = {
+    getData: async (params) => {
+        return await axios.get(`http://localhost:8080/device_by_hour?startDate=${params.startDate}&endDate=${params.endDate}`);
+    },
 };
