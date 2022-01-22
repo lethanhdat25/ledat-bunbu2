@@ -5,7 +5,7 @@ import Toast from '../Toast';
 import { useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { getDeviceByHour } from '../../store/slice/device_by_hour';
-const _ = require('lodash');
+import _ from 'lodash';
 
 const DeviceByHour = () => {
     const [data, setData] = useState([]);
@@ -23,17 +23,21 @@ const DeviceByHour = () => {
         };
         fetchData();
     }, []);
+
     const hours = [0, 2, 4, 6, 8, 10, 12, 2, 4, 6, 8, 10];
     const arrayHour = _.map(data, value => _.map(value.hours, (hour) => hour.value));
     //Tính thời gian
     const glossaryHour = arrayHour.map(value => {
         return _.reduce(value, (x, y) => x + y);
     });
+
     let valueOfX = 0;
+
     const dataGlossary = _.map(data, (value, index) => ({
         x: value.day,
         y: glossaryHour[index],
     }));
+
     return (
         <>
             <Calendar parent={'DEVICE_BY_HOUR'} setDataOfParent={(result)=>setData(result)}/>
@@ -130,7 +134,6 @@ const DeviceByHour = () => {
                         <VictoryBar horizontal
                             barWidth={20}
                             height={700}
-                            alignment='center'
                             labels={({ datum }) => datum.y}
                             cornerRadius={{ top: 5 }}
                             style={{
@@ -152,4 +155,5 @@ const DeviceByHour = () => {
         </>
     );
 };
+
 export default DeviceByHour;

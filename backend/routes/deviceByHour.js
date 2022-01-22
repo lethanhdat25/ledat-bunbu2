@@ -1,9 +1,11 @@
-const express=require("express");
+import express from 'express';
 const router=express.Router();
-const _=require("lodash");
+import _ from 'lodash';
 const days=['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-router.get("/",(req,res)=>{
+
+router.get('/',(req,res)=>{
     const {startDate,endDate}=req.query;
+
     const deviceByHour=_.map(
         days,
         (day) => ({
@@ -16,12 +18,15 @@ router.get("/",(req,res)=>{
             }))
         })
     );
+
     if (startDate!=='null'&&endDate!=='null') {
         setTimeout(() => {
             res.json(deviceByHour)
         }, 7000);
         return res.ok;
     }
+
     return res.error();
 });
-module.exports= router;
+
+export default router;

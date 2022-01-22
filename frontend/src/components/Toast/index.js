@@ -2,6 +2,7 @@ import { toast, Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 const Toast=(props)=>{
+
     const store=useSelector(state=>{
         switch (props.parent){
             case 'RANKING':{
@@ -18,9 +19,11 @@ const Toast=(props)=>{
             }
         }
     });
+
     useEffect(()=>{
         renderToast();
     },[props.parentData]);
+
     const renderToast = () => {
         if (store.success) {
             toast.success('Successfully created!');
@@ -30,6 +33,7 @@ const Toast=(props)=>{
         }
         return true;
     };
+
     return(
         <>
             {store.pending &&
@@ -42,5 +46,7 @@ const Toast=(props)=>{
             <Toaster />
         </>
     );
+
 };
+
 export default Toast;

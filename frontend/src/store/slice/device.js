@@ -34,4 +34,5 @@ const device = createSlice({
         },
     },
 });
+
 export default device.reducer;

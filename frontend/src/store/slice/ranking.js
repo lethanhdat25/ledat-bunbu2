@@ -8,6 +8,7 @@ const initialState = {
     message: '',
     data: [],
 };
+
 export const getRanking = createAsyncThunk('ranking', async (params) => {
     const res = await rankingApi.getData(params);
     return res.data;
@@ -34,4 +35,5 @@ const ranking = createSlice({
         },
     },
 });
+
 export default ranking.reducer;

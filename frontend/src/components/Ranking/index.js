@@ -5,11 +5,12 @@ import Toast from '../Toast';
 import { getRanking } from '../../store/slice/ranking';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-const _ = require('lodash');
+import _ from 'lodash';
 
 const Ranking = () => {
     const [data,setData] = useState([]);
     const dispatch = useDispatch();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -22,6 +23,7 @@ const Ranking = () => {
         };
         fetchData();
     }, []);
+
     return (
         <>
             <Calendar parent={'RANKING'} setDataOfParent={(result)=>setData(result)}/>
@@ -60,5 +62,7 @@ const Ranking = () => {
             </div>
         </>
     );
+
 };
+
 export default Ranking;

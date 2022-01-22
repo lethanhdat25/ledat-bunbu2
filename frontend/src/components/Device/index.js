@@ -5,14 +5,16 @@ import Toast from '../Toast';
 import { getDevice } from '../../store/slice/device';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-const _=require('lodash');
+import _ from 'lodash';
 
 const Device = () => {
     const [data, setData] = useState([]);
     const tickValueData = data && data.map(value => {
         return _.map(value, year => year.x.year);
     }).flat();
+
     const dispatch= useDispatch();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -26,6 +28,7 @@ const Device = () => {
         };
         fetchData();
     }, []);
+
     const line = data && data.map((value, index) => {
         const dateLine = value.map(date => ({ x: new Date(date.x.year, date.x.month, date.x.day), y: date.y }));
         return (
@@ -38,11 +41,36 @@ const Device = () => {
                     y: [0, 180],
                 }}
                 interpolation='monotoneX'
-                scale={{ x: 'time', y: 'linear' }}
+                // scale={{ x: 'time', y: 'linear' }}
                 standalone={false}
             />
         );
     });
+    const configAxis=()=>{
+        return(
+            <>
+                <VictoryAxis
+                    tickValues={tickValueData}
+                    tickFormat={
+                        (d) => {
+                            if (d > 10 && d % 2 === 0) {
+                                return d;
+                            }
+                        }
+                    }
+                    standalone={false}
+                    dependentAxis={false}
+                    width={600}
+                />
+                <VictoryAxis dependentAxis
+                    domain={[0, 190]}
+                    offsetX={50}
+                    orientation='left'
+                    standalone={false}
+                />
+            </>
+        );
+    };
     return (
         <>
             <Calendar parent={'DEVICE'} setDataOfParent={(result)=>setData(result)}/>
@@ -52,32 +80,13 @@ const Device = () => {
                     padding: 0,
                     fontFamily: '\'Fira Sans\', sans-serif',
                 }} viewBox='0 0 700 290'>
-                    <g>
-                        <VictoryAxis
-                            scale={'time'}
-                            tickValues={tickValueData}
-                            tickFormat={
-                                (d) => {
-                                    if (d > 10 && d % 2 === 0) {
-                                        return d;
-                                    }
-                                }
-                            }
-                            standalone={false}
-                            dependentAxis={false}
-                            width={600}
-                        />
-                        <VictoryAxis dependentAxis
-                            domain={[0, 190]}
-                            offsetX={50}
-                            orientation='left'
-                            standalone={false}
-                        />
-                        {line}
-                    </g>
+                    {tickValueData.length>0&&configAxis()}
+                    {line}
                 </svg>
             </div>
         </>
     );
+
 };
+
 export default Device;

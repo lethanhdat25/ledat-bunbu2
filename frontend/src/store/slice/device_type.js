@@ -8,10 +8,12 @@ const initialState = {
     message: '',
     data: [],
 };
+
 export const getDeviceType = createAsyncThunk('deviceType', async (params) => {
     const res = await deviceTypeApi.getData(params);
     return res.data;
 });
+
 const deviceType = createSlice({
     name: 'deviceType',
     initialState,
@@ -31,4 +33,5 @@ const deviceType = createSlice({
         },
     },
 });
+
 export default deviceType.reducer;

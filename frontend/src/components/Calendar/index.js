@@ -16,6 +16,7 @@ const Calendar = (props) => {
     const [error, setError] = useState(false);
     const [focusedInput, setFocusedInput] = useState(null);
     const dispatch = useDispatch();
+
     const typeOfDispatch=()=>{
         switch (props.parent){
             case 'RANKING':{
@@ -32,6 +33,7 @@ const Calendar = (props) => {
             }
         }
     };
+
     const handleCalendarClick=async()=>{
         if (startDate&&endDate){
             try {
@@ -46,9 +48,11 @@ const Calendar = (props) => {
             setError(true);
         }
     };
+
     useEffect(()=>{
         setTimeout(()=>setError(false),2000);
     },[error]);
+
     return (
         <>
             <DateRangePicker
@@ -72,5 +76,7 @@ const Calendar = (props) => {
             {error&&<span style={{marginLeft:10,color:'red'}}>Bạn phải nhập đầy đủ thông tin!</span>}
         </>
     );
+
 };
+
 export default Calendar;
