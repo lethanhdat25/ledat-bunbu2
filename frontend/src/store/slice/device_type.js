@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { rankingApi } from '../../api/ranking';
+import { deviceTypeApi } from '../../api/device_type';
 
 const initialState = {
     pending: false,
@@ -9,26 +9,24 @@ const initialState = {
     data: [],
 };
 
-export const getRanking = createAsyncThunk('ranking', async (params) => {
-    const res = await rankingApi.getData(params);
+export const getDeviceType = createAsyncThunk('deviceType', async (params) => {
+    const res = await deviceTypeApi.getData(params);
     return res.data;
 });
 
-const ranking = createSlice({
-    name: 'ranking',
+const deviceType = createSlice({
+    name: 'deviceType',
     initialState,
     extraReducers: {
-        [getRanking.pending]: (state) => {
+        [getDeviceType.pending]: (state) => {
             state.pending = true;
-            state.success= false;
-            state.failed=false;
         },
-        [getRanking.fulfilled]: (state, action) => {
+        [getDeviceType.fulfilled]: (state, action) => {
             state.pending = false;
             state.success = true;
             state.data = action.payload;
         },
-        [getRanking.rejected]: (state, action) => {
+        [getDeviceType.rejected]: (state, action) => {
             state.pending = false;
             state.failed = true;
             state.message = action.error.message;
@@ -36,4 +34,4 @@ const ranking = createSlice({
     },
 });
 
-export default ranking.reducer;
+export default deviceType.reducer;

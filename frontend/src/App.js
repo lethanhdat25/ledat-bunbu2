@@ -1,29 +1,29 @@
 import './App.css';
-import {useSelector} from "react-redux";
-import {toast, Toaster} from "react-hot-toast";
-import DeviceByHour from "./components/DeviceByHour";
-import Ranking from "./components/Ranking";
+import DeviceByHour from './components/DeviceByHour';
+import DeviceType from './components/DeviceType';
+import Device from './components/Device';
+import Ranking from './components/Ranking';
 
 function App() {
-    const store=useSelector(state=>state);
-    const renderToast=()=>{
-        if (store.device_by_hour.success)  toast.success('Successfully created!');
-        if (store.device_by_hour.failed) toast.error(store.ranking.failed);
-        return true;
-    }
-    return(
+    return (
         <>
-            {renderToast()}
-            {store.device_by_hour.pending && <div className="text-center">
-                <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
+            <div className={'analysis'}>
+                <div style={{ backgroundColor: 'white', marginTop: 20, marginLeft: 20 }}>
+                    <DeviceType />
                 </div>
-            </div>}
-            <DeviceByHour/>
-            <Toaster/>
+                <div style={{ backgroundColor: 'white', marginTop: 20, marginRight: 20 }}>
+                    <Device />
+                </div>
+                <div style={{ backgroundColor: 'white', marginBottom: 20, marginLeft: 20 }}>
+                    <Ranking />
+                </div>
+                <div style={{ backgroundColor: 'white', marginRight: 20, marginBottom: 20 }}>
+                    <DeviceByHour />
+                </div>
+            </div>
 
         </>
-    )
-};
+    );
+}
 
 export default App;
