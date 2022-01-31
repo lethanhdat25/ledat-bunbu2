@@ -1,10 +1,9 @@
 import { VictoryPie } from 'victory';
 import { useEffect, useState } from 'react';
-import Calendar from '../Calendar';
-import Toast from '../Toast';
 import { useDispatch } from 'react-redux';
 import { getDeviceType } from '../../store/slice/device_type';
 import { unwrapResult } from '@reduxjs/toolkit';
+import LabelPieChart from '../LabelPieChart';
 
 const DeviceType = () => {
     const [data, setData] = useState({});
@@ -13,7 +12,7 @@ const DeviceType = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await dispatch(getDeviceType({startDate:Date.now(),endDate:Date.now()}));
+                const res = await dispatch(getDeviceType());
                 setData(res.payload);
                 unwrapResult(res);
             } catch (e) {
@@ -33,8 +32,7 @@ const DeviceType = () => {
 
     return (
         <>
-            <Calendar parent={'DEVICE_TYPE'} setDataOfParent={(result)=>setData(result)}/>
-            <Toast parent={'DEVICE_TYPE'} parentData={data} color={'danger'}/>
+            <LabelPieChart/>
             <div style={{ width: 520, height: 400, margin: 'auto', float: 'left', position: 'relative' }}>
                 <VictoryPie colorScale={data ? ['#6abdb0', '#8a63db'] : ['gray']}
                     innerRadius={100}
