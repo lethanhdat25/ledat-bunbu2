@@ -1,18 +1,18 @@
-import { VictoryPie } from 'victory';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getDeviceType } from '../../store/slice/device_type';
-import { unwrapResult } from '@reduxjs/toolkit';
+import {VictoryPie} from 'victory';
+import {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {getDeviceType} from '../../store/slice/device_type';
+import {unwrapResult} from '@reduxjs/toolkit';
 import LabelPieChart from '../LabelPieChart';
 
 const DeviceType = () => {
-    const [data, setData] = useState({});
+    const [data, setData] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await dispatch(getDeviceType());
+                const res = await dispatch(getDeviceType([]));
                 setData(res.payload);
                 unwrapResult(res);
             } catch (e) {
@@ -22,42 +22,60 @@ const DeviceType = () => {
         fetchData();
     }, []);
 
-    const getKey = data && Object.keys(data);
-    const pieData = data && getKey.map(value => ({
-        y: data[value],
-    }));
+    const color = ['#6abdb0', '#8a63db', '#252ff5', '#e633ff', '#fcd569', '#f52525', '#000000'];
 
-    const iosPercent = data && Math.round(data.ios * 100 / (data.ios + data.android));
-    const androidPercent = data && Math.round(data.android * 100 / (data.ios + data.android));
+    const pieData = data.length > 0 && data.map(value => {
+        return {
+            y: value.y
+        };
+    });
+
+    let totalOS = 0;
+
+    data.forEach(value => totalOS += value.y);
+
+    const handleCloseBox = (data) => setData(data);
+
+    const osPercent=data.map(value=>({...value,y:Math.round(value.y*100/totalOS)}));
+
+    const renderPercent=osPercent.map((value,index)=>(
+        <div key={index} style={{width:150}}>
+            <div style={{height: 20}}>
+                <div style={{
+                    width: 20,
+                    height: 10,
+                    borderRadius: 10,
+                    backgroundColor: color[index],
+                    float: 'left',
+                    paddingTop: 10,
+                }}/>
+                <span style={{float: 'right', marginTop: -7}}>{value.x}</span>
+            </div>
+            <h4 style={{marginTop: 10}}>{value.y}%</h4>
+        </div>
+    ));
 
     return (
         <>
-            <LabelPieChart/>
-            <div style={{ width: 520, height: 400, margin: 'auto', float: 'left', position: 'relative' }}>
-                <VictoryPie colorScale={data ? ['#6abdb0', '#8a63db'] : ['gray']}
+            <LabelPieChart handleCloseBox={handleCloseBox}/>
+            <div style={{width:'100%',
+                height: 400,
+                margin: 'auto',
+                float: 'left',
+                position: 'relative'}}>
+                <VictoryPie colorScale={data && color}
                     innerRadius={100}
-                    data={data? pieData : null}
-                    style={{ parent: { width: 300 } }}
-                    labels={({ datum }) => datum.xName}
+                    data={data ? pieData : null}
+                    style={{parent: {width: 300}}}
+                    labels={({datum}) => datum.xName}
                 />
-                <div style={{ position: 'absolute', right: 0, top: '30%' }}>
-                    <div style={{ height: 20, width: 200 }}>
-                        <div style={{
-                            width: 20,
-                            height: 10,
-                            borderRadius: 10,
-                            backgroundColor: '#6abdb0',
-                            float: 'left',
-                            paddingTop: 10,
-                        }} />
-                        <span style={{ float: 'right', marginTop: -7 }}>{data&&data.ios}</span>
-                    </div>
-                    <h4 style={{ marginTop: 10 }}>{iosPercent?iosPercent:0}%</h4>
-                    <div style={{ height: 20, width: 200 }}>
-                        <div style={{ width: 20, height: 10, borderRadius: 10, backgroundColor: '#8a63db', float: 'left' }} />
-                        <span style={{ float: 'right', marginTop: -7 }}>{data&&data.android}</span>
-                    </div>
-                    <h4 style={{ marginTop: 10 }}>{androidPercent?androidPercent:0}%</h4>
+                <div style={{position: 'absolute',
+                    display: 'grid',
+                    gridTemplateColumns: '2fr 2fr',
+                    top: '20%',
+                    right:'15%',
+                    gridGap: '25px'}}>
+                    {renderPercent}
                 </div>
             </div>
         </>

@@ -1,8 +1,9 @@
-import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
-import { useState } from 'react';
+import {Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select} from '@mui/material';
+import {useState} from 'react';
 import _ from 'lodash';
-import { getDeviceType } from '../../store/slice/device_type';
-import { useDispatch } from 'react-redux';
+import {getDeviceType} from '../../store/slice/device_type';
+import {useDispatch} from 'react-redux';
+import {unwrapResult} from '@reduxjs/toolkit';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -16,34 +17,40 @@ const MenuProps = {
     },
 };
 
-const LabelPieChart = () => {
+const LabelPieChart = ({handleCloseBox}) => {
     const [dataOS, setDataOS] = useState([]);
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
     const data = [
-        { x: 'Android', y: _.random(0, 100) },
-        { x: 'Windows', y: _.random(0, 100) },
-        { x: 'Ios', y: _.random(0, 100) },
-        { x: 'Os X', y: _.random(0, 100) },
-        { x: 'Unknown', y: _.random(0, 100) },
-        { x: 'Linux', y: _.random(0, 100) }
+        {x: 'Android', y: _.random(0, 100)},
+        {x: 'Windows', y: _.random(0, 100)},
+        {x: 'Ios', y: _.random(0, 100)},
+        {x: 'Os X', y: _.random(0, 100)},
+        {x: 'Unknown', y: _.random(0, 100)},
+        {x: 'Linux', y: _.random(0, 100)}
     ];
 
     const handleChange = (event) => {
 
         const {
-            target: { value },
+            target: {value},
         } = event;
 
         setDataOS(value);
     };
-    const handleClose=()=>{
-        console.log(dataOS);
-        return  dispatch(getDeviceType(dataOS));
+    const handleClose = async () => {
+        try {
+            const res = await dispatch(getDeviceType(dataOS));
+            handleCloseBox(res.payload);
+            unwrapResult(res);
+        } catch (e) {
+            console.log(e);
+        }
+        return true;
     };
 
     return (
         <div>
-            <FormControl sx={{ m: 1, width: 300 }}>
+            <FormControl sx={{m: 1, width: 300}}>
                 <InputLabel id='demo-multiple-checkbox-label'>Tag</InputLabel>
                 <Select
                     labelId='demo-multiple-checkbox-label'
@@ -51,15 +58,15 @@ const LabelPieChart = () => {
                     multiple
                     value={dataOS}
                     onChange={handleChange}
-                    input={<OutlinedInput label='Tag' />}
+                    input={<OutlinedInput label='Tag'/>}
                     renderValue={(selected) => selected.join(', ')}
                     MenuProps={MenuProps}
                     onClose={handleClose}
                 >
                     {data.map((value) => (
                         <MenuItem key={value.x} value={value.x}>
-                            <ListItemText primary={value.x} />
-                            <Checkbox checked={dataOS.indexOf(value.x) > -1} />
+                            <ListItemText primary={value.x}/>
+                            <Checkbox checked={dataOS.indexOf(value.x) > -1}/>
                         </MenuItem>
                     ))}
                 </Select>
