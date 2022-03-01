@@ -1,47 +1,57 @@
 import express from 'express';
 const router=express.Router();
+import _ from 'lodash';
+
 
 router.get("/",(req,res)=>{
     const {startDate,endDate}=req.query;
+    // const startDay=new Date(startDate).getDate();
+    // const startMonth=new Date(startDate).getMonth()+1;
+    // const endDay=new Date(endDate).getDate();
+    // const endMonth=new Date(endDate).getMonth()+1;
 
-    if (startDate!=='null'&&endDate!=='null'){
-        setTimeout(()=> {
-            res.json([
-                [
-                    { x: { day: 1, month: 12, year: 2000 }, y: 11 },
-                    { x: { day: 1, month: 1, year: 2001 }, y: 5 },
-                    { x: { day: 1, month: 1, year: 2002 }, y: 4 },
-                    { x: { day: 1, month: 1, year: 2003 }, y: 6 },
-                    { x: { day: 1, month: 1, year: 2004 }, y: 5 },
-                    { x: { day: 1, month: 1, year: 2005 }, y: 7 },
-                    { x: { day: 1, month: 1, year: 2006 }, y: 8 },
-                    { x: { day: 1, month: 1, year: 2007 }, y: 9 },
-                    { x: { day: 1, month: 1, year: 2008 }, y: 15 },
-                    { x: { day: 1, month: 1, year: 2009 }, y: 140 },
-                    { x: { day: 1, month: 1, year: 2010 }, y: 5 },
-                    { x: { day: 1, month: 1, year: 2013 }, y: 1 },
-                    { x: { day: 1, month: 1, year: 2014 }, y: 2 },
-                    { x: { day: 1, month: 1, year: 2015 }, y: -5 }
-                ],
-                [
-                    { x: { day: 1, month: 1, year: 2000 }, y: 5 },
-                    { x: { day: 1, month: 1, year: 2003 }, y: 6 },
-                    { x: { day: 1, month: 1, year: 2004 }, y: 4 },
-                    { x: { day: 1, month: 1, year: 2005 }, y: 10 },
-                    { x: { day: 1, month: 1, year: 2006 }, y: 12 },
-                    { x: { day: 1, month: 1, year: 2007 }, y: 48 },
-                    { x: { day: 1, month: 1, year: 2008 }, y: 19 },
-                    { x: { day: 1, month: 1, year: 2009 }, y: 31 },
-                    { x: { day: 1, month: 1, year: 2011 }, y: 49 },
-                    { x: { day: 1, month: 1, year: 2014 }, y: 40 },
-                    { x: { day: 1, month: 1, year: 2015 }, y: 21 }
-                ]
-            ]);
-        },5000);
-        return res.ok;
+    // const randomDate=()=>{
+    //     const hour=_.random(1,24);
+    //     const day=startDay?_.random(startDay,endDay):_.random(1,31);
+    //     const month=startDay?_.random(startMonth,endMonth):new Date().getMonth()+1;
+    //     return({
+    //         hour,day,month
+    //     });
+    // };
+
+    const hours=_.range(1,25);
+
+
+    const hourData=()=>{
+        return hours.map((hour)=>({x:hour,y:_.random(1,30)}));
     }
 
-    return res.error();
+    const randomDayData=()=>{
+        return _.range(1,31).map((day)=>{
+            let totalOfDay=0;
+            let cpHourData=[];
+            hourData().forEach((value)=>{
+                cpHourData.push(value);
+                totalOfDay+=value.y
+            });
+            return {dayData:{x:day,y:totalOfDay},hourData:cpHourData};
+        });
+    };
+
+    if (startDate!=='undefined'&&endDate!=='undefined'){
+        return setTimeout(()=> {
+            res.json([
+               randomDayData(),
+               randomDayData(),
+            ]);
+        },100);
+    }
+    return setTimeout(()=> {
+        res.json([
+            randomDayData(),
+            randomDayData(),
+        ]);
+    },100);
 });
 
 export default router;
