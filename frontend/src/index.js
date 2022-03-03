@@ -5,12 +5,15 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store';
 import App from './App';
+import { StyledEngineProvider } from '@mui/material/styles';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <App />
+            <StyledEngineProvider injectFirst>
+                <App />
+            </StyledEngineProvider>
         </BrowserRouter>
     </Provider>,
     document.getElementById('root'),
