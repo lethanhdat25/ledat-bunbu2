@@ -38,6 +38,7 @@ const Calendar = (props) => {
         if (startDate&&endDate){
             try {
                 const res = await typeOfDispatch();
+                console.log(res);
                 props.setDataOfParent(res.payload);
                 unwrapResult(res);
             } catch (e) {
@@ -54,7 +55,7 @@ const Calendar = (props) => {
     },[error]);
 
     return (
-        <>
+        <div>
             <DateRangePicker
                 startDateId='startDate'
                 endDateId='endDate'
@@ -74,7 +75,7 @@ const Calendar = (props) => {
             />
             <Button style={{marginLeft:20}} onClick={handleCalendarClick} variant='contained' size='small'>OK</Button>
             {error&&<span style={{marginLeft:10,color:'red'}}>Bạn phải nhập đầy đủ thông tin!</span>}
-        </>
+        </div>
     );
 
 };
